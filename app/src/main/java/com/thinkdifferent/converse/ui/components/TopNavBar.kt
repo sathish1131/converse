@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddCircleOutline
+import androidx.compose.material.icons.filled.AddComment
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -42,7 +42,7 @@ fun TopNavBar(
         else ->
             "Converse"
     }
-    val home = currentRoute === Screen.Home.route
+    val home = currentRoute == Screen.Home.route
     Surface(
         shadowElevation = 4.dp
     ) {
@@ -72,16 +72,16 @@ fun TopNavBar(
                     }
                 },
                 actions = {
-                    if (currentRoute === Screen.Home.route) {
+                    if (currentRoute == Screen.Home.route) {
                         IconButton(
                             onClick = onNewConversationClick
                         ) {
                             Icon(
-                                imageVector = Icons.Default.AddCircleOutline,
+                                imageVector = Icons.Default.AddComment,
                                 contentDescription = "New Conversation"
                             )
                         }
-                    } else if (currentRoute === Screen.History.route) {
+                    } else if (currentRoute == Screen.History.route) {
                         IconButton(
                             onClick = onDeleteClick
                         ) {

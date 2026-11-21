@@ -1,4 +1,4 @@
 package com.thinkdifferent.converse.utils
 
-class utils {
+class CommonUtils {
 }

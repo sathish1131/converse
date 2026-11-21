@@ -21,12 +21,21 @@ import com.thinkdifferent.converse.ui.viewmodel.LanguageViewModel
 
 @Composable
 fun SettingScreen(
-    languageViewModel: LanguageViewModel
+    languageViewModel: LanguageViewModel,
+    onSave: () -> Unit
 ) {
     val context = LocalContext.current
-    val languageState by languageViewModel.state.collectAsState()
-    var source by remember { mutableStateOf(languageState.source) }
-    var target by remember { mutableStateOf(languageState.target) }
+    val savedLanguageState by languageViewModel.savedState.collectAsState()
+    var source by remember(savedLanguageState.source, savedLanguageState.target) {
+        mutableStateOf(savedLanguageState.source)
+    }
+    var target by remember(savedLanguageState.source, savedLanguageState.target) {
+        mutableStateOf(savedLanguageState.target)
+    }
+    val hasChanges = !(
+        (source == savedLanguageState.source && target == savedLanguageState.target) ||
+            (source == savedLanguageState.target && target == savedLanguageState.source)
+        )
     Column {
         Spacer(modifier = Modifier.height(24.dp))
         LanguageDropdown(
@@ -44,11 +53,13 @@ fun SettingScreen(
                 target = it
             }
         )
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.height(16.dp))
         Button(
             modifier = Modifier.fillMaxWidth(),
+            enabled = hasChanges,
             onClick = {
                 languageViewModel.update(source, target)
+                onSave()
                 Toast.makeText(
                     context,
                     "Language settings saved",
